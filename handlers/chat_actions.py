@@ -8,10 +8,26 @@ async def chat_action(message: types.Message):
     if message.chat.id == -4002579851:
         for word in ban_words:
             if word in message.text.lower().replace(" ", ""):
-                Database().sql_insert_ban_user_query(
-                    telegram_id=message.from_user.id,
-                    username=message.from_user.username
+                # try:
+                user = Database().sql_select_user_query(
+                    telegram_id=message.from_user.id
                 )
+                print(user)
+                if user:
+                    Database().sql_update_ban_user_query(
+                        telegram_id=message.from_user.id
+                    )
+                else:
+
+                    Database().sql_insert_ban_user_query(
+                        telegram_id=message.from_user.id,
+                        username=message.from_user.username
+                    )
+                # except sqlite3.IntegrityError as e:
+                #     Database().sql_update_ban_user_query(
+                #         telegram_id=message.from_user.id
+                #     )
+
                 await bot.delete_message(
                     chat_id=message.chat.id,
                     message_id=message.message_id
@@ -22,6 +38,12 @@ async def chat_action(message: types.Message):
                     f'Username: {message.from_user.username}\n'
                     f'First-Name: {message.from_user.first_name}'
                 )
+
+    else:
+        await message.reply(
+            text="There is no such a command\n"
+                "Maybe u mispronounced"
+        )
         # await message.reply(
         #     text=message.text
         # )

@@ -41,3 +41,23 @@ class Database:
             (None, telegram_id, username, 1)
         )
         self.connection.commit()
+
+    def sql_update_ban_user_query(self, telegram_id):
+        self.cursor.execute(
+            sql_queries.UPDATE_BAN_USER_COUNT_QUERY,
+            (telegram_id, )
+        )
+        self.connection.commit()
+
+    def sql_select_user_query(self, telegram_id):
+        self.cursor.row_factory = lambda cursor, row: {
+            'id': row[0],
+            "telegram_id": row[1],
+            "username": row[2],
+            "first_name": row[3],
+            "last_name": row[4],
+        }
+        return self.cursor.execute(
+            sql_queries.SELECT_USER_QUERY,
+            (telegram_id,)
+        ).fetchall()
