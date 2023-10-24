@@ -32,7 +32,7 @@ async def secret_word(message: types.Message):
 
         await bot.send_message(
             chat_id=message.from_user.id,
-            text="Long time no see, Admin!",
+            text="Long time no see, Ad min!",
             reply_markup=await admin_keyboard()
         )
         # await bot.send_message(
