@@ -1,7 +1,7 @@
 from aiogram import types, Dispatcher
 from config import bot
 from keyboards.inline_buttons import questionnaire_one_keyboard
-from scraping.news_scraper import NewsScraper
+# from scraping.news_scraper import NewsScraper
 async def start_questionnaire(call: types.CallbackQuery):
     print(call)
     await bot.send_message(
